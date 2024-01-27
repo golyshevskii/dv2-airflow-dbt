@@ -35,3 +35,7 @@ up-b:
 down:
 	@$(info $(NOW) | INFO | Makefile → Docker down...)
 	docker-compose down
+
+prune-a:
+	@$(info $(NOW) | INFO | Makefile → Pruning Docker containers...)
+	docker system prune -a
