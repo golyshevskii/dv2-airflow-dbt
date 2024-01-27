@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "dv2-airflow-dbt"
+version = "0.1.0"
+description = "Cases of loading data into the DataVault 2.0 model using the Airflow + dbt tools"
+authors = ["Slava Golyshevskii <sgolyshevskii@gmail.com>"]
+readme = "README.md"
+packages = [{include = "dv2_airflow_dbt"}]
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+black = "24.1.0"
+isort = "5.13.2"
+flake8 = "7.0.0"
+dbt-core = "1.7.6"
+dbt-postgres = "1.7.6"
+airflow-dbt-python = "2.0.0"
+setuptools = "69.0.3"
+pandas = "2.2.0"
+sqlalchemy = "1.4.51"
+apache-airflow = "2.8.1"
+
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+exclude = '''
+(
+  \.eggs
+  |\.git
+  | .*_pb2.py
+  |\.mypy_cache
+  |\.venv
+  |venv
+)
+'''
+
+[tool.isort]
+profile = "black"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

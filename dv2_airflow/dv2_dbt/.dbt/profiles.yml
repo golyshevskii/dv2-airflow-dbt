@@ -1,0 +1,23 @@
+dv2_dbt:
+  outputs:
+    raw:
+      type: postgres
+      threads: 1
+      host: "{{ env_var('AIRFLOW_VAR_DBT_HOST') }}"
+      port: 5432
+      user: "{{ env_var('AIRFLOW_VAR_DBT_USER') }}"
+      pass: "{{ env_var('AIRFLOW_VAR_DBT_PASSWORD') }}"
+      dbname: dwh
+      schema: raw
+
+    datamart:
+      type: postgres
+      threads: 1
+      host: "{{ env_var('AIRFLOW_VAR_DBT_HOST') }}"
+      port: 5432
+      user: "{{ env_var('AIRFLOW_VAR_DBT_USER') }}"
+      pass: "{{ env_var('AIRFLOW_VAR_DBT_PASSWORD') }}"
+      dbname: dwh
+      schema: datamart
+
+  target: raw
