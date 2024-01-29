@@ -1,6 +1,7 @@
 import os
 
-PATH = "/Users/python_poseur/dv2-adbt-dev/dv2-airflow-dbt/dv2_airflow"
+LOCAL_PATH = "/Users/python_poseur/dv2-adbt-dev/dv2-airflow-dbt/dv2_airflow"
+PROD_PATH = "/opt/airflow/dags/"
 
 # DBT
 DBT_PROJECT_DIR = "/opt/airflow/dags/dv2_dbt"

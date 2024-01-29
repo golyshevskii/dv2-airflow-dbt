@@ -13,15 +13,15 @@ requirements:
 # Linting
 lint:
 	@$(info $(DT_NOW) | INFO | Makefile → Linting...)
-	poetry run black scripts
-	poetry run isort scripts
-	poetry run flake8 scripts
+	poetry run black dv2_airflow
+	poetry run isort dv2_airflow
+	poetry run flake8 dv2_airflow
 
-format-check:
+lint-check:
 	@$(info $(DT_NOW) | INFO | Makefile → Linting checking...)
-	poetry run black --check scripts
-	poetry run isort --check scripts
-	poetry run flake8 scripts
+	poetry run black --check dv2_airflow
+	poetry run isort --check dv2_airflow
+	poetry run flake8 dv2_airflow
 
 # Docker
 up:

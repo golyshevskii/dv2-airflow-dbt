@@ -2,9 +2,14 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow_dbt_python.operators.dbt import DbtRunOperator
+
 from config import DBT_PROFILE, DBT_PROFILES_DIR, DBT_PROJECT_DIR
 
-default_args = {"owner": "airflow", "depends_on_past": False, "task_concurrency": 1}
+default_args = {
+    "owner": "airflow",
+    "depends_on_past": False,
+    "task_concurrency": 1,
+}
 
 with DAG(
     dag_id="dbt_dag_test",
