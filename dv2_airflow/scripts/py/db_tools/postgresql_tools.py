@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def max_dt(
-    schema: str, table: str, dt_column: str, conn_str: str, **kwargs
+    schema: str, table: str, dt_column: str, conn_id: str, **kwargs
 ) -> datetime | None:
     """Returns max value of datetime column in the table
 
@@ -19,15 +19,19 @@ def max_dt(
     schema (str): schema name
     table (str): table name
     dt_column (str): datetime column name
-    conn_str (str): connection string
+    conn_id (str): connection identifier from Airflow Connections
     """
     frame = currentframe().f_code.co_name
 
-    psql_hook = PostgresHook(conn_str)
+    psql_hook = PostgresHook(conn_id)
 
     with psql_hook.get_conn() as conn:
+        cursor = conn.cursor()
+
         sql = f"SELECT MAX({dt_column}) as max_dt FROM {schema}.{table};"
-        max_dt = conn.execute(sql).fetchone()[0]
+        cursor.execute(sql)
+        
+        max_dt = cursor.fetchone()[0]
         logger.info(f"{frame} → Data extracted successfully: max_dt={max_dt}")
 
     kwargs["ti"].xcom_push(key="max_dt", value=max_dt)
@@ -60,7 +64,7 @@ def insert_on_conflict_nothing(
     return result.rowcount
 
 
-def load_on_conflict_do_nothing(
+def load_on_conflict_nothing(
     query: str, schema: str, table: str, conn_str: str, **kwargs
 ) -> None:
     """Loads selected data to the PostgreSQL table

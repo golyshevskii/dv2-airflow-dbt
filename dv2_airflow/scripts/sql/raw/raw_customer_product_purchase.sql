@@ -6,4 +6,4 @@ select
     price,
     purchase_dt
 from raw.temp_raw_customer_product_purchase
-where purchase_dt >= '%s'::timestamp - 1 and purchase_dt < '%s'::timestamp;
+where purchase_dt >= '%s'::date - 1 and purchase_dt < '%s'::date;

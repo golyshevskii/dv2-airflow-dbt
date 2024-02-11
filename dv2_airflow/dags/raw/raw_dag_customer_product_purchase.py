@@ -2,7 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from scripts.py.db_tools.postgresql_tools import load_on_conflict_do_nothing, max_dt
+from scripts.py.db_tools.postgresql_tools import load_on_conflict_nothing, max_dt
 
 from config import DWH_CONN, PROD_PATH
 
@@ -17,7 +17,7 @@ with DAG(
     tags=["raw"],
     default_args=default_args,
     start_date=datetime(2024, 1, 29),
-    schedule_interval="* */1 * * *",
+    schedule_interval="0 * * * *",
     catchup=False,
 ) as dag:
     get_max_dt = PythonOperator(
@@ -27,7 +27,7 @@ with DAG(
             "schema": "raw",
             "table": "raw_customer_product_purchase",
             "dt_column": "purchase_dt",
-            "conn_str": DWH_CONN,
+            "conn_id": "LPDWH_CONN",
         },
     )
 
@@ -40,12 +40,13 @@ with DAG(
 
     load_raw = PythonOperator(
         task_id="load_raw",
-        python_callable=load_on_conflict_do_nothing,
+        python_callable=load_on_conflict_nothing,
         op_kwargs={
             "query": query % (logical_date, logical_date),
             "schema": "raw",
             "table": "raw_customer_product_purchase",
             "conn_str": DWH_CONN,
+            "primary_index": ["purchase_key", "customer_key", "product_key", "purchase_dt"],
         },
     )
 
